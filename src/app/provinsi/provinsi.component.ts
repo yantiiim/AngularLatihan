@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Provinsi } from './provinsi';
 import { ProvinsiService } from './provinsi.service';
 
@@ -11,16 +11,25 @@ import { ProvinsiService } from './provinsi.service';
 })
 export class ProvinsiComponent implements OnInit {
 
+  id: string;
 addProvinsiForm: FormGroup;
 
-  constructor(private provinsiService: ProvinsiService, private router: Router) {
-
-  }
-
-  ngOnInit(): void {
+  constructor(private provinsiService: ProvinsiService, private route: ActivatedRoute, private router: Router) {
     this.addProvinsiForm = new FormGroup({
       idProvinsi: new FormControl(null, [Validators.required]),
       namaProvinsi: new FormControl(null, [Validators.required, Validators.minLength(3)])
+    });
+  }
+
+  ngOnInit(): void {
+    this.route.params.subscribe(rute => {
+      this.id = rute.id;
+      this.provinsiService.getProvinsiById(this.id).subscribe(data => {
+        this.addProvinsiForm.get('idProvinsi').setValue(data.idProvinsi);
+        this.addProvinsiForm.get('namaProvinsi').setValue(data.namaProvinsi);
+      }, error => {
+        alert("Data Tidak Ditemukan !");
+      });
     });
   }
 
