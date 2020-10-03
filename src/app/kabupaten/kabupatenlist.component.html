@@ -1,23 +1,22 @@
 <h3>Daftar Kabupaten</h3>
+<form [formGroup]="cariForm" >
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Nama Kabupaten</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" formControlName="namaKabupaten">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button (click)="rerender()" class="btn btn-primary">Cari</button>
+        </div>
+    </div>
+</form>
 <div class="row">
     <div class="col-md-12">
-        <table class="row-border hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>NAMA</th>
-                    <th>NAMA PROVINSI</th>
-                    <th>#</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let k of listKab">
-                    <td>{{k.idKabupaten}}</td>
-                    <td>{{k.namaKabupaten}}</td>
-                    <td>{{k.provinsi.namaProvinsi}}</td>
-                    <td><a routerLink="/editkab/{{k.idKabupaten}}">Edit</a></td>
-                </tr>
-            </tbody>
+        <table datatable [dtOptions]="dtOptions" class="cards table table-sm table-hover"
+        style="width: 100%">
+
         </table>
     </div>
 </div>
